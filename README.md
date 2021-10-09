@@ -61,8 +61,8 @@ Dependências:
 <br />
 
 
-### URL Shortener Microservice App rodando na plataforma Replit.com:          
-![URL Shortener Microservice App rodando na plataforma Replit.com](/public/images/)
+### Exercise Tracker App rodando na plataforma Replit.com:          
+![Exercise Tracker App rodando na plataforma Replit.com](/public/images/exercice-tracker-microservice-rodando-no-Replit.png)
 
 
 
