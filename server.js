@@ -34,6 +34,11 @@ app.post('/api/users', function(req, res) {
 	console.log(req.body);
 	
 	const { username } = req.body;
+	console.log(username);
+	
+	if (!username) {
+		return res.send("Insert a user name");
+	}
 	
 	userId++;
 	const newUser = {
@@ -45,6 +50,37 @@ app.post('/api/users', function(req, res) {
 	console.log(users);
 	
 	res.json(newUser);
+});
+
+
+let exercises = [];
+
+app.post('/api/users/:_id/exercises', function(req, res) {
+	console.log(req.body);
+	const { _id, description, duration, date } = req.body;
+	
+	console.log(users);
+	const username = users.find(user => user._id === parseInt(_id));
+	console.log("username: ", username);
+	
+	if (username) {
+		const exercise = {
+			username: username.username, 
+			description, 
+			duration, 
+			date,
+			_id
+		};
+		console.log(exercise);
+	
+		exercises.push(exercise);
+		console.log(exercises);
+		
+		res.send(exercise);
+	} else {
+		return res.send(`Cast to ObjectId failed for value ${_id} at path "_id" for model "Users"`);
+	}
+	
 });
 
 
