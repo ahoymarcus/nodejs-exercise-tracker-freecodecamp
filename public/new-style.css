@@ -1,0 +1,166 @@
+/****** Main Styling ******/
+* { margin: 0; padding: 0; }
+
+body {
+	font-family: 'Roboto', sans-serif;
+	font-size: 16px;
+	color: #222;
+	background-color: #ff936b; /*#ff7643; /*#f19f81; /*#f7622b;*/
+	text-align: center;
+	line-height: 1.4em;
+}
+
+.container {
+	padding: 0;
+	margin-top: 40px;
+	
+}
+.container h3 {
+	margin-bottom: 15px; 
+}
+
+
+main {
+	margin-top: 50px;
+	margin-bottom: 95px;
+}
+main h2, main p {
+	max-width: 650px;
+	margin: auto;
+}
+
+h1 {
+	/*margin-top: 25px; */
+	background-color: #ffff58b5;
+	padding: 30px;
+}
+
+h2 {
+	font-size: 30px;
+	line-height: 32px;
+}
+
+h3 {
+  margin-top: 30px;
+}
+
+hr {
+	margin: 25px;
+}
+
+.footer {
+	margin-top: 40px;
+}
+
+code {
+  font-family: monospace;
+  padding: 6px;
+	border-radius: 5px;
+  color: #404016;
+  background-color: #ffffff73;
+}
+
+ul {
+	list-style-type: none;
+}
+
+li {
+  margin-bottom: 0.5em;
+}
+
+a {
+	color: #2574A9;
+}
+
+
+aside {
+	margin-top: 95px;
+}
+
+section.forms {
+	/*background-color: #d1ab9e; /*#f7622b;*/
+	background-image: linear-gradient(#b38b64, #8499ad, #abcfac);
+	border-radius: 25px;
+	
+	width: 80%;
+	margin: auto;
+}
+
+
+
+footer { 
+	color: black; 
+	background-color: #589a58; 
+	font-size: 1rem; 
+	padding: 10px; 
+}
+footer p { 
+	color: #f3eacdc7; 
+	font-weight: 800; 
+	text-align: end; 
+	font-size: 1.2rem; 
+	margin-bottom: 15px; 
+}
+footer a { 
+	color: inherit; 
+}
+
+footer ul { list-style: none; }
+footer a { text-decoration: none; }
+.external-links-container { display: flex; justify-content: space-around; }
+
+
+
+.forms {
+	display: flex;
+	justify-content: space-around;
+}
+.forms h2 {
+	color: #3e3e06;
+}
+.forms p {
+	margin: 25px 0;
+}
+form {
+	padding: 20px;
+	width: 60%;
+}
+input {
+	margin-bottom: 10px;
+	padding: 8px;
+	width: 86%;
+	border: 1px solid #704a4a;
+	border-radius: 5px;
+	font-size: 16px;
+}
+input[type=submit] {
+	width: 92%;
+	background-color: #E4F1FE;
+	border: 1px solid gray;
+	border-radius: 5px;
+	box-shadow:  2px 2px #999;
+	cursor: pointer;
+}
+input[type=submit]:hover {
+	background-color: #c7c594;
+}
+
+
+/*MEDIA QUERY*/
+@media only screen and (min-width: 840px) {
+	main section#contact .contact-links {
+		flex-direction: row;
+		justify-content: space-evenly; align-items: baseline;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
