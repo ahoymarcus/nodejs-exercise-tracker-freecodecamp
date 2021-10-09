@@ -24,22 +24,36 @@ Dependências:
 
 <br />
 
-### URL Shortener Microservice App home page:          
-![URL Shortener Microservice App home page](/public/images/)
+### Exercise Tracker App home page:          
+![Exercise Tracker App home page](/public/images/exercice-tracker-microservice-home-page.png)
 
 
 
 <br />
 
-### Postando uma URL no App e recebendo um id de referência para ela:          
-![Postando uma URL no App e recebendo um id de referência para ela](/public/images/)
+### Postando usuários e recebendo um id de referência para ele:          
+![Postando usuários e recebendo um id de referência para ele](/public/images/exercice-tracker-microservice-posting-users.png)
 
 
 
 <br />
 
-### Redirecionando para uma URL original usando o seu Id de referência:          
-![Redirecionando para uma URL original usando o seu Id de referência](/public/images/)
+### Fazendo uma requisição GET na rota /api/users para listar usuários:          
+![Fazendo uma requisição GET na rota /api/users para listar usuários](/public/images/exercice-tracker-microservice-get-users.png)
+
+
+
+<br />
+
+### Postando exercícios com validação de referência do usuário com _id para e formatando a data:          
+![Postando exercícios com validação de referência do usuário com _id para e formatando a data](/public/images/exercice-tracker-microservice-post-exercises.png)
+
+
+
+<br />
+
+### Fazendo requição GET na rota /api/users/:id/logs em busca da lista de exercícios cadastrados por um usuário:           
+![Postando exercícios com validação de referência do usuário com _id para e formatando a data](/public/images/exercice-tracker-microservice-get-logs.png)
 
 
 

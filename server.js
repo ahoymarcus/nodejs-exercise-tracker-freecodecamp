@@ -22,13 +22,13 @@ app.get('/', (req, res) => {
 });
 
 
-//let users = [];
+let users = [];
 let userId = 0;
-let users = [
-	{ username: 'Zeca', _id: 1 },
-  { username: 'Marcus', _id: 2 },
-  { username: 'milzeca', _id: 3 }
-];
+// let users = [
+	// { username: 'Zeca', _id: 1 },
+  // { username: 'Marcus', _id: 2 },
+  // { username: 'milzeca', _id: 3 }
+// ];
 
 
 app.get('/api/users', function(req, res) {
@@ -59,37 +59,13 @@ app.post('/api/users', function(req, res) {
 });
 
 
-//let exercises = [];
-let exercises = [
-	{
-		username:"milzeca",
-		description:"teste4",
-		duration:"40",
-		date:"2021-10-08",
-		_id:"3"
-	},
-  {
-    username: 'Marcus',
-    description: 'teste',
-    duration: '20',
-    date: '2021-10-09T19:48:32.137Z',
-    _id: '2'
-  },
-  {
-    username: 'Zeca',
-    description: 'teste2',
-    duration: '10',
-    date: '2021-10-09T19:48:55.473Z',
-    _id: '1'
-  },
-  {
-    username: 'milzeca',
-    description: 'teste3',
-    duration: '80',
-    date: '2021-10-09T19:49:28.711Z',
-    _id: '3'
-  }
-];
+let exercises = [];
+// let exercises = [
+	// {username:"milzeca", description:"teste4", 		duration:"40", date:"Thu Oct 07 2021", _id:"3"},
+  // {username: 'Marcus', description: 'teste',    duration: '20', date: 'Thu Oct 07 2021', _id: '2' },
+  // {username: 'Zeca', description: 'teste2',     duration: '10', date: 'Thu Oct 07 2021', _id: '1'},
+  // {username: 'milzeca', description: 'teste3',  duration: '80', date: 'Thu Oct 07 2021', _id: '3'}
+// ];
 
 app.post('/api/users/:_id/exercises', function(req, res) {
 	console.log(req.body);
@@ -100,8 +76,23 @@ app.post('/api/users/:_id/exercises', function(req, res) {
 	const username = users.find(user => user._id === parseInt(_id));
 	console.log("username: ", username);
 	
+	let formattedDate;
 	if (date === '') {
 		date = new Date();
+		formattedDate = date.toDateString();
+	} else {
+		const miliseconds = Date.parse(date);
+		let temp;
+		temp = new Date(miliseconds);
+		console.log(typeof temp);
+		console.log(temp);
+		
+		formattedDate = temp.toString();
+		console.log('typeof formattedDate', typeof formattedDate);
+		console.log(formattedDate);
+		
+		formattedDate = formattedDate.slice(0, 15);
+		console.log(formattedDate);
 	}
 	
 	if (username) {
@@ -109,7 +100,7 @@ app.post('/api/users/:_id/exercises', function(req, res) {
 			username: username.username, 
 			description, 
 			duration, 
-			date,
+			date: formattedDate,
 			_id
 		};
 		console.log(exercise);
@@ -133,51 +124,28 @@ app.get('/api/users/:_id/logs', function(req, res) {
 	const user = users.find(user => user._id === parseInt(_id));
 	console.log(user);
 	
-	
-	// console.log(exercises);
-	// const userExercises = exercises.filter(exercise => exercise._id === _id);
-	// console.log('userExercises list');
-	// console.log(userExercises);
-	
-	
-	
+	console.log('......exercises array......');
 	console.log(exercises);
-	
-	let tempLog = [];
-	for (let i=0; i < exercises.length; i++) {
-		if (i._id !== _id) {
-			continue;
-		} else {
-			let temp = { 
-				description: exercise.description,
-				duration: exercise.duration, 
-				date: exercise.date 
-			};
 		
-			tempLog.push(temp);
-		}
-	}
-	
-	
-	
-	
-	// const exercisesLog = userExercises.map(cur => {
-		// let temp = { description: cur.description, duration: cur.duration, date: cur.date };
+	const userExercises = exercises
+	.filter(exercise => exercise._id === _id)
+	.map(cur => {
+		let temp = { description: cur.description, duration: parseInt(cur.duration), date: cur.date };
 		
-		// return temp;
-	// });
-	// console.log('exercisesLog');
-	// console.log(exercisesLog);
+		return temp;
+	});
+	console.log('......userExercises......');
+	console.log(userExercises);
+	//.toDateString()
 	
+	const log = {
+		username: user.username,
+		count: userExercises.length,
+		_id: _id,
+		log: userExercises
+	};
 	
-	// const log = {
-		// username: user.username,
-		// count: userExercises.length,
-		// _id: _id,
-		//log: userExercises
-	// };
-	
-	res.status(200).send('log');
+	res.status(200).send(log);
 });
 
 
