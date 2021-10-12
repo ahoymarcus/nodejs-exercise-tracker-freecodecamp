@@ -84,7 +84,7 @@ app.post('/api/users/:_id/exercises', (req, res) => {
 			let newExercise = new Exercise({ userId: _id, description, duration, date });
 			
 			newExercise.save((err, data) => {
-				res.json({ username, description, duration: +duration, date: new Date(date).toDateString(), userId: _id });
+				res.json({ _id, username,  date: new Date(date).toDateString(), duration: +duration, description });
 			});
 		}
 	});
@@ -108,12 +108,12 @@ app.get('/api/users/:id/logs', (req, res) => {
 			
 			console.log({"from": from, "to": to, "limit": limit });
 		
-			Exercise.find({id}, { date: {$gte: new Date(from), $lte: new Date(to) }}).select(["_id", "description", "duration", "date"]).limit(+limit)
+			Exercise.find({userId: id}, { date: {$gte: new Date(from), $lte: new Date(to) }}).select(["_id", "description", "duration", "date"]).limit(+limit)
 				.exec((err, data) => {
 					let customData = data.map(exer => {
 						let dateFormatted = new Date(exer.date).toDateString();
 						
-						return { id: exer.id, description: exer.description, duration: exer.duration, date: dateFormatted };
+						return { description: exer.description, duration: exer.duration, date: dateFormatted };
 					});
 					
 					if (!data) {
