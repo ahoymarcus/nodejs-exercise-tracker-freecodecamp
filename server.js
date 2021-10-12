@@ -11,10 +11,10 @@ const app = express();
 mongoose.connect(process.env.MONGODB_SRV || 'mongodb://127.0.0.1:27017/exercise_tracker', { useNewUrlParser: true }, { useUnifiedTopology: true });
 // , {useMongoClient: true }
 
-const userSchema = new mongoose.Schema({ username: { type: String, unique: true }});
+const userSchema = new mongoose.Schema({ username: String });
 const User = mongoose.model('User', userSchema);
 
-const exerciseSchema = new mongoose.Schema({ username: String, description: String, duration: Number, date: Date, _id: String });
+const exerciseSchema = new mongoose.Schema({ description: String, duration: Number, date: Date, userId: String });
 const Exercise = mongoose.model('Exercise', exerciseSchema);
 
 app.use(cors());
@@ -47,22 +47,25 @@ app.get('/api/users', (req, res) => {
 app.post('/api/users', (req, res) => {
 	console.log(req.body.username);
 	
-	const newUser = new User({ username: req.body.username });
-	newUser.save((err, data) => {
+	User.findOne({ username: req.body.username }, (err, data) => {
 		
-		if (err) {
-			res.json("Username already taken!");
-		} else {
-			res.json({ "username": data.username, "_id": data.id });
+		if (data) {
+			return res.send('This username already exists!');
 		}
 	});
+	
+	const newUser = new User({ username: req.body.username });
+	new User({username: req.body.username})
+			.save()
+			.then(doc => res.json({ username: doc.username, _id: doc.id }))
+			.catch(err => res.json(err));
 	
 });
 
 
 
 // Exercices
-app.post('/api/users/:id/exercises', (req, res) => {
+app.post('/api/users/:_id/exercises', (req, res) => {
 	console.log(req.body);
 	let { _id, description, duration, date } = req.body;
 	
@@ -78,10 +81,10 @@ app.post('/api/users/:id/exercises', (req, res) => {
 		} else {
 			let username = data.username;
 			
-			let newExercise = new Exercise({ _id, description, duration, date });
+			let newExercise = new Exercise({ userId: _id, description, duration, date });
 			
 			newExercise.save((err, data) => {
-				res.json({ username, description, duration: +duration, date: new Date(date).toDateString(), _id });
+				res.json({ username, description, duration: +duration, date: new Date(date).toDateString(), userId: _id });
 			});
 		}
 	});
@@ -93,10 +96,10 @@ app.get('/api/users/:id/logs', (req, res) => {
 	console.log("req.params....", req.params);
 	console.log("req.query.....", req.query);
 	
-	const { _id } = req.params;
+	const { id } = req.params;
 	const { from = null, to = null, limit = null } = req.query;
 	
-	User.findById(_id, (err, data) => {
+	User.findById(id, (err, data) => {
 		
 		if (!data) {
 			res.send('Unknown user Id');
@@ -105,24 +108,24 @@ app.get('/api/users/:id/logs', (req, res) => {
 			
 			console.log({"from": from, "to": to, "limit": limit });
 		
-			Exercise.find({_id}, { date: {$gte: new Date(from), $lte: new Date(to) }}).select(["_id", "description", "duration", "date"]).limit(+limit)
+			Exercise.find({id}, { date: {$gte: new Date(from), $lte: new Date(to) }}).select(["_id", "description", "duration", "date"]).limit(+limit)
 				.exec((err, data) => {
 					let customData = data.map(exer => {
 						let dateFormatted = new Date(exer.date).toDateString();
 						
-						return { _id: exer.id, description: exer.description, duration: exer.duration, date: dateFormatted };
+						return { id: exer.id, description: exer.description, duration: exer.duration, date: dateFormatted };
 					});
 					
 					if (!data) {
 						res.json({
-							"_id": _id,
+							"_id": id,
 							"username": username,
 							"count": 0,
 							"log": []
 						});
 					} else {
 						res.json({
-							"_id": _id,
+							"_id": id,
 							"username": username,
 							"count": data.length,
 							"log": customData
