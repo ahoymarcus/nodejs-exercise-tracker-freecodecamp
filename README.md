@@ -18,6 +18,8 @@ Dependências:
 - Express-JS
 - Cors
 - Nodemon
+- MongoDB
+- Mongoose
 
 
 
