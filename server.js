@@ -59,7 +59,6 @@ app.post('/api/users', (req, res) => {
 			.save()
 			.then(doc => res.json({ username: doc.username, _id: doc.id }))
 			.catch(err => res.json(err));
-	
 });
 
 
@@ -67,24 +66,36 @@ app.post('/api/users', (req, res) => {
 // Exercices
 app.post('/api/users/:_id/exercises', (req, res) => {
 	console.log(req.body);
-	let { _id, description, duration, date } = req.body;
+	let { _id, description, duration } = req.body;
+	let dateInput = req.body.date;
 	
-	if (!date) {
-		date = new Date();
+	
+	if (dateInput === '') {
+		dateInput = new Date();
+	} else {
+		const timestamp = Date.parse(dateInput);
+		console.log('timestamp', timestamp);
+		
+		if (isNaN(timestamp) == false) {
+			dateInput = new Date(timestamp);
+		} else {
+			return res.send(`Cast to date failed for value ${dateInput} at path "date"`);
+		}
 	}
+
 	
 	User.findById(_id, (err, data) => {
 		console.log(_id);
 		
-		if (!data) {
+		if (!data) { 
 			res.send('Unknown userId');
 		} else {
 			let username = data.username;
 			
-			let newExercise = new Exercise({ userId: _id, description, duration, date });
+			let newExercise = new Exercise({ userId: _id, description, duration, dateInput });
 			
 			newExercise.save((err, data) => {
-				res.json({ _id, username,  date: new Date(date).toDateString(), duration: +duration, description });
+				res.json({ _id, username,  date: new Date(dateInput).toDateString(), duration: +duration, description });
 			});
 		}
 	});
