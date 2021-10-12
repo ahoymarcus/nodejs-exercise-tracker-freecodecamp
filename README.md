@@ -21,11 +21,10 @@ Dependências:
 
 
 
-
 <br />
 
 ### Exercise Tracker App home page:          
-![Exercise Tracker App home page](/public/images/exercice-tracker-microservice-home-page.png)
+![Exercise Tracker App home page](/public/images/exercice-tracker-microservice-home-page-comp-page.png)
 
 
 
@@ -63,6 +62,15 @@ Dependências:
 
 ### Exercise Tracker App rodando na plataforma Replit.com:          
 ![Exercise Tracker App rodando na plataforma Replit.com](/public/images/exercice-tracker-microservice-rodando-no-Replit.png)
+
+
+
+
+
+<br />
+
+### Inserindo o banco de dados MongoDB ao app:            
+![Inserindo o banco de dados MongoDB ao app](/public/images/inserindo-mongodb-mongoose-ao-projeto.png)
 
 
 
