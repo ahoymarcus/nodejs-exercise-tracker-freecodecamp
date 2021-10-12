@@ -67,9 +67,12 @@ app.post('/api/users', (req, res) => {
 app.post('/api/users/:_id/exercises', (req, res) => {
 	console.log(req.body);
 	let { _id, description, duration } = req.body;
+	
+	
+	   
+	
+	// Data validation
 	let dateInput = req.body.date;
-	
-	
 	if (dateInput === '') {
 		dateInput = new Date();
 	} else {
