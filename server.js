@@ -8,15 +8,25 @@ const mongoose = require('mongoose');
 
 const app = express();
 
-mongoose.connect(process.env.MONGODB_SRV || 'mongodb://127.0.0.1:27017/exercise_tracker', { useNewUrlParser: true }, { useUnifiedTopology: true });
-// , {useMongoClient: true }
 
-const userSchema = new mongoose.Schema({ username: String });
+mongoose.connect(process.env.MONGODB_SRV || 'mongodb://127.0.0.1:27017/exercise_tracker', { useNewUrlParser: true }, { useUnifiedTopology: true });
+
+
+// Configure Schema and Model for the DB
+const userSchema = new mongoose.Schema({ 
+	username: { type:String, required: true }
+});
 const User = mongoose.model('User', userSchema);
 
-const exerciseSchema = new mongoose.Schema({ description: String, duration: Number, date: Date, userId: String });
-// date: Date, 
+const exerciseSchema = new mongoose.Schema({
+	description: { type: String, required: true },
+	duration: { type: Number, required: true },
+	date: Date,
+	userId: String 
+});
 const Exercise = mongoose.model('Exercise', exerciseSchema);
+
+
 
 app.use(cors());
 app.use(express.static('public'));
@@ -47,16 +57,20 @@ app.get('/api/users', (req, res) => {
 
 app.post('/api/users', (req, res) => {
 	console.log(req.body.username);
+	const username = req.body.username;
 	
-	User.findOne({ username: req.body.username }, (err, data) => {
+	if (username === '') {
+		return res.send(`Path "username" is required.`);
+	}
+	
+	User.findOne({ username }, (err, data) => {
 		
 		if (data) {
 			return res.send('This username already exists!');
 		}
 	});
 	
-	const newUser = new User({ username: req.body.username });
-	new User({username: req.body.username})
+	new User({ username })
 			.save()
 			.then(doc => res.json({ username: doc.username, _id: doc.id }))
 			.catch(err => res.json(err));
@@ -87,6 +101,14 @@ app.post('/api/users/:_id/exercises', (req, res) => {
 		}
 	}
 
+	// Other fields validation
+	if (description === '') {
+		return res.send(`Path "description" is required.`);
+	}
+	if (duration === '') {
+		return res.send(`Path "duration" is required.`);
+	}
+	
 	
 	User.findById(_id, (err, data) => {
 		console.log(_id);
