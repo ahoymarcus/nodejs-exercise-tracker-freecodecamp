@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema({ username: String });
 const User = mongoose.model('User', userSchema);
 
 const exerciseSchema = new mongoose.Schema({ description: String, duration: Number, date: Date, userId: String });
+// date: Date, 
 const Exercise = mongoose.model('Exercise', exerciseSchema);
 
 app.use(cors());
@@ -95,7 +96,7 @@ app.post('/api/users/:_id/exercises', (req, res) => {
 		} else {
 			let username = data.username;
 			
-			let newExercise = new Exercise({ userId: _id, description, duration, dateInput });
+			let newExercise = new Exercise({ userId: _id, description, duration, date: dateInput });
 			
 			newExercise.save((err, data) => {
 				res.json({ _id, username,  date: new Date(dateInput).toDateString(), duration: +duration, description });
