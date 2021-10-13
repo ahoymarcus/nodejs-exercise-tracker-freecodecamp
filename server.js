@@ -147,20 +147,33 @@ app.get('/api/users/:id/logs', (req, res) => {
 		if (!data) {
 			res.send('Unknown user Id');
 		} else {
-			const username = data.username;
+			const userLogs = data.log.map((cur) => {
+				console.log(cur);
+				
+				return {
+					description: cur.description,
+					duration: parseInt(cur.duration),
+					date: cur.date.toDateString()
+				};
+			});
+			
+			let responseObject = {
+				_id: data.id,
+				username: data.username,
+				count: data.log.length,
+				log: userLogs
+			};
+					
+			
 			
 			console.log({"from": from, "to": to, "limit": limit });
 			
-			let responseObject = {};
-			console.log(responseObject['count']);
-			
-			responseObject['_id'] = data.id;
-			responseObject['username'] = data.username;
-			responseObject['count'] = data.log.length;
-			responseObject['log'] = data.log;
+			if (limit) {
+				responseObject.log = responseObject.log.slice(0, limit);
+			}
 			
 			
-			console.log(Object.keys(responseObject));
+			
 			
 			res.json(responseObject);
 		}
