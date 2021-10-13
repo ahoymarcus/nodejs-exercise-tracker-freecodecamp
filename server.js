@@ -8,23 +8,23 @@ const mongoose = require('mongoose');
 
 const app = express();
 
-
 mongoose.connect(process.env.MONGODB_SRV || 'mongodb://127.0.0.1:27017/exercise_tracker', { useNewUrlParser: true }, { useUnifiedTopology: true });
 
 
-// Configure Schema and Model for the DB
-const userSchema = new mongoose.Schema({ 
-	username: { type:String, required: true }
-});
-const User = mongoose.model('User', userSchema);
-
+// Configure SCHEMAs and MODELs for the DB
 const exerciseSchema = new mongoose.Schema({
 	description: { type: String, required: true },
 	duration: { type: Number, required: true },
 	date: Date,
 	userId: String 
 });
+const userSchema = new mongoose.Schema({ 
+	username: { type:String, required: true },
+	log: [exerciseSchema]
+});
+
 const Exercise = mongoose.model('Exercise', exerciseSchema);
+const User = mongoose.model('User', userSchema);
 
 
 
@@ -81,9 +81,11 @@ app.post('/api/users', (req, res) => {
 // Exercices
 app.post('/api/users/:_id/exercises', (req, res) => {
 	console.log(req.body);
-	let { _id, description, duration } = req.body;
+	let { description, duration } = req.body;
 	
-	
+	console.log('req.params.....', req.params);
+	let userId = req.params;
+	console.log('userId.....', userId);
 	   
 	
 	// Data validation
@@ -110,21 +112,27 @@ app.post('/api/users/:_id/exercises', (req, res) => {
 	}
 	
 	
-	User.findById(_id, (err, data) => {
-		console.log(_id);
-		
-		if (!data) { 
-			res.send('Unknown userId');
-		} else {
-			let username = data.username;
-			
-			let newExercise = new Exercise({ userId: _id, description, duration, date: dateInput });
-			
-			newExercise.save((err, data) => {
-				res.json({ _id, username,  date: new Date(dateInput).toDateString(), duration: +duration, description });
-			});
-		}
+	let newExercise = new Exercise({
+		description,
+		duration: parseInt(duration),
+		date: dateInput
 	});
+	
+	User.findByIdAndUpdate(
+		userId,
+		{ $push: { log: newExercise }},
+		{ new: true },
+		(error, updatedUser) => {
+			let responseObject = {};
+			responseObject['_id'] = updatedUser.id;
+			responseObject['username'] = updatedUser.username;
+			responseObject['date'] = new Date(newExercise.date).toDateString();
+			responseObject['description'] = newExercise.description;
+			responseObject['duration'] = newExercise.duration;
+			
+			res.json(responseObject);
+		});
+	
 	
 });
 
