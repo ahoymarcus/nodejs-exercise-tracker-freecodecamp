@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Exercise Tracker | freeCodeCamp</title>
+    <link rel="shortcut icon" href="https://cdn.freecodecamp.org/universal/favicons/favicon.ico"  type="image/x-icon" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css" />
+    <!--<link href="style.css" rel="stylesheet" type="text/css" />-->
+		<link href="new-style.css" rel="stylesheet" type="text/css" />
+		
+  </head>
+
+  <body>
+	
+		<header>
+			<h1>Exercise tracker</h1>
+			
+		</header>
+		
+		<!--<hr />-->
+		
+		<main>
+			<h2>Fourth project from the certification <em>Back End Development and APIs</em></h2>
+			<br />
+			<p>
+					From <a href="https://www.freecodecamp.org/">freeCodeCamp.org</a>
+			 </p>
+			<br />
+			<p>Here we are working with backend javascript create a exercise tracker log where you can subscribe a user and with its personal id hash, you can post exercises for you to track in your app</p>
+		</main>
+		
+		
+		<section class="forms">
+			<form action="/api/users" method="post">
+        <h2>Create a New User</h2>
+        <p><code>POST /api/users</code></p>
+        <input id="uname" type="text" name="username" placeholder="username" />
+        <input type="submit" value="Submit" />
+      </form>
+			
+      <form action="/api/users/:_id/exercises" id="exercise-form" method="post">
+        <h2>Add exercises</h2>
+        <p><code>POST /api/users/:_id/exercises</code></p>
+        <input id="uid" type="text" name=":_id" placeholder=":_id" />
+        <input id="desc" type="text" name="description" placeholder="description*" />
+        <input id="dur" type="text" name="duration" placeholder="duration* (mins.)" />
+        <input id="date" type="text" name="date" placeholder="date (yyyy-mm-dd)" />
+        <input type="submit" value="Submit" />
+      </form>
+		</section>
+      
+      
+		<aside>
+			<p>
+        <strong>GET user's exercise log: </strong>
+        <code>GET /api/users/:_id/logs?[from][&amp;to][&amp;limit]</code>
+      </p>
+      <p><strong>[ ]</strong> = optional</p>
+      <p><strong>from, to</strong> = dates (yyyy-mm-dd); <strong>limit</strong> = number
+			</p>
+		</aside>	
+			
+			
+			
+    
+    
+		
+		<script>
+      <!-- const exerciseForm = document.getElementById("exercise-form"); -->
+
+      <!-- exerciseForm.addEventListener("submit", () => { -->
+        <!-- const userId = document.getElementById("uid").value; -->
+        <!-- exerciseForm.action = `/api/users/${userId}/exercises`; -->
+
+        <!-- exerciseForm.submit(); -->
+      <!-- }); -->
+    </script>
+		
+		
+		<footer class="footer">
+      <p>Marcus Vinícius Richa - Web Developer</p>
+		
+			<ul class="external-links-container">
+				<li><a target="_blank" href="https://marcus-richa-personal-portfolio-webpage.netlify.app/">Personal Web Portfolio</a> </li>
+				<li><a target="_blank" href="https://musica-erudita.netlify.app/">Música Erudita Web Page</a> </li>
+				<li><a target="blank" href="https://github.com/ahoymarcus">Github</a></li>
+				<li><a target="_blank" href="https://www.freecodecamp.org/ahoymarcus">Freecodecamp.org</a></li>
+				<li><a target="_blank" href="https://www.linkedin.com/in/marcus-vinicius-richa-183104199/">Linkdin Profile</a></li>
+			</ul>
+    </footer>
+		
+  </body>
+</html>
+
+
+
+

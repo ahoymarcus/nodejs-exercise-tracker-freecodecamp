@@ -32,6 +32,7 @@ let userId = 0;
 
 
 app.get('/api/users', function(req, res) {
+	console.log('Route GET users.....', users);
 	
 	res.send(users);
 });
