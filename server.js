@@ -8,9 +8,10 @@ require('dotenv').config();
 const app = express();
 
 
+// Configure MongoDB
 mongoose.connect(process.env.MONGODB_SRV || 'mongodb://127.0.0.1:27017/exercise_tracker', { useNewUrlParser: true }, { useUnifiedTopology: true });
 
-
+// Define SCHEMA and MODEL
 const personSchema = new mongoose.Schema({
 	username: {type: String, unique: true} }
 );
@@ -34,11 +35,13 @@ app.use(bodyParser.json());
 app.use(express.static('public'))
 
 
+// Home page
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
 
 
+// USERS ROUTES
 app.get("/api/users", (req, res) => {
   Person.find({}, (err, data) => {
     if(!data){
@@ -61,6 +64,7 @@ app.post("/api/users", (req, res) => {
     }
   });
 });
+
 
 app.post("/api/users/:_id/exercises", (req,res) => {
 	console.log('req.body.....', req.body);
