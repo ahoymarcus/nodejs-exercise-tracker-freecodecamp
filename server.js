@@ -132,8 +132,6 @@ app.post('/api/users/:_id/exercises', (req, res) => {
 			
 			res.json(responseObject);
 		});
-	
-	
 });
 
 
@@ -152,31 +150,19 @@ app.get('/api/users/:id/logs', (req, res) => {
 			const username = data.username;
 			
 			console.log({"from": from, "to": to, "limit": limit });
-		
-			Exercise.find({userId: id}, { date: {$gte: new Date(from), $lte: new Date(to) }}).select(["_id", "description", "duration", "date"]).limit(+limit)
-				.exec((err, data) => {
-					let customData = data.map(exer => {
-						let dateFormatted = new Date(exer.date).toDateString();
-						
-						return { description: exer.description, duration: exer.duration, date: dateFormatted };
-					});
-					
-					if (!data) {
-						res.json({
-							"_id": id,
-							"username": username,
-							"count": 0,
-							"log": []
-						});
-					} else {
-						res.json({
-							"_id": id,
-							"username": username,
-							"count": data.length,
-							"log": customData
-						});
-					}
-				});
+			
+			let responseObject = {};
+			console.log(responseObject['count']);
+			
+			responseObject['_id'] = data.id;
+			responseObject['username'] = data.username;
+			responseObject['count'] = data.log.length;
+			responseObject['log'] = data.log;
+			
+			
+			console.log(Object.keys(responseObject));
+			
+			res.json(responseObject);
 		}
 	});
 });
