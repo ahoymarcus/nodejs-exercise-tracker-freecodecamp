@@ -168,11 +168,35 @@ app.get('/api/users/:id/logs', (req, res) => {
 			
 			console.log({"from": from, "to": to, "limit": limit });
 			
+			
+			// DATE FILTERS
+			if (from || to) {
+				// Maximum range dates
+				let fromDate = new Date(0); // lowest date
+				let toDate = new Date(); // current date
+				
+				if (from) {
+					fromDate = new Date(from);
+				}
+				if (to) {
+					toDate = new Date(to);
+				}
+				
+				fromDate = fromDate.getTime();
+				toDate = toDate.getTime();
+				console.log('fromDate: ' + fromDate + ' toDate: ' + toDate);
+				
+				responseObject.log = responseObject.log.filter((exercise) => {
+					let exerciseDate = new Date(exercise.date).getTime();
+					
+					return exerciseDate >= fromDate && exerciseDate <= toDate;
+				});
+			}
+			
+			// LIMIT FILTERS
 			if (limit) {
 				responseObject.log = responseObject.log.slice(0, limit);
 			}
-			
-			
 			
 			
 			res.json(responseObject);

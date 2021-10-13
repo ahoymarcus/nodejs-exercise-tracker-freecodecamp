@@ -76,6 +76,13 @@ Dependências:
 
 
 
+<br />
+
+### Filtrando os resultados de array de Exercícios a partir de parâmetros FROM e TO passados pela query:            
+![Filtrando os resultados de array de Exercícios a partir de parâmetros FROM e TO passados pela query](/public/images/filtrando-array-de-exercícios-pelos-params-da-query.png)
+
+
+
 
 <br />
 
